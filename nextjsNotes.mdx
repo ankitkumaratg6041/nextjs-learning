@@ -1,0 +1,78 @@
+---
+title: Getting Started with Next.js
+description: Notes on what Next.js is, why to use it, and how to set up your first project.
+---
+
+# 🚀 What is Next.js?
+
+**Next.js** is a **React framework** for building **fullstack web applications**.
+
+While React alone can build apps, it's **not feasible for production-level apps** without adding multiple third-party tools.
+
+---
+
+## 🧠 React vs Next.js
+
+### 🔹 React
+- A **JavaScript library** focused only on the **UI (view layer)**.
+- You need to decide and configure other parts of the app yourself (e.g. routing, SSR, bundling).
+- Not opinionated — lots of freedom, but more setup.
+
+### 🔹 Next.js
+- A **framework built on top of React**.
+- Provides **all essential production features out of the box**:
+  - ✅ Routing
+  - ✅ Optimized rendering
+  - ✅ Data fetching
+  - ✅ API routes (backend support)
+  - ✅ Code splitting and bundling
+  - ✅ Compilation
+- Has **opinionated structure and conventions** that guide how apps should be built.
+
+---
+
+# 🎯 Why Learn Next.js?
+
+Next.js **simplifies** building scalable and production-ready applications.
+
+---
+
+## 🔑 Key Features
+
+### 1. 📁 File-Based Routing
+- Traditional React needs libraries like `react-router-dom`.
+- Next.js gives **routing out of the box** — just create files inside the `pages/` or `app/` directory.
+
+### 2. 🧩 API Routes
+- Create backend logic in the same project.
+- Write serverless functions inside `app/api` or `pages/api`.
+
+### 3. 🧠 Rendering Modes
+- Supports **CSR** (Client Side Rendering) and **SSR** (Server Side Rendering).
+- Helps with **SEO and performance**.
+
+### 4. 🔄 Built-in Data Fetching
+- Async/await friendly functions like `getStaticProps`, `getServerSideProps`, or new `fetch()` in App Router.
+
+### 5. 🎨 Styling Support
+- Supports CSS Modules, Tailwind CSS, Sass, and more.
+- Works well with design systems.
+
+### 6. ⚙️ Optimizations
+- Image optimization (`next/image`)
+- Script loading (`next/script`)
+- Smart bundling
+
+### 7. 🛠 Dev & Prod Build System
+- Built-in fast builds, live reloads, and optimized production output using **Webpack** or **Turbopack**.
+
+---
+
+## 📘 Chapter 1: Hello World
+
+### 🛠 Create a New Next.js App
+
+Run the following command in your terminal:
+
+```bash
+npx create-next-app@latest

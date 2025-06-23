@@ -1,0 +1,191 @@
+---
+title: Application Layers Working Together – E-commerce Checkout Flow
+description: Step-by-step breakdown of how all layers of a web app collaborate using a real-world checkout example.
+---
+
+# 🎯 Example Scenario: E-commerce App — User Buys a Product
+
+We’ll walk through what happens when a user buys a product on an e-commerce site.
+
+---
+
+## 🧱 Layer 1: Presentation Layer (Frontend)
+
+**Tech:** React + Next.js + Tailwind CSS
+
+### What Happens:
+- The user sees a product listing page with "Buy Now" buttons.
+- User clicks **Buy Now** on a product.
+- A form opens to enter shipping details and payment info.
+
+```tsx
+// Example (React code)
+const handleSubmit = async () => {
+  const res = await fetch('/api/checkout', {
+    method: 'POST',
+    body: JSON.stringify({ productId, userDetails }),
+  });
+  const data = await res.json();
+  alert(data.message);
+};
+
+
+## ⚙️ Layer 2: Business Logic Layer (Backend / API Route)
+
+**Tech:** Next.js API Routes (or Express.js, NestJS, etc.)
+
+**Route:** `/api/checkout.ts`
+
+```ts
+// /pages/api/checkout.ts or /app/api/checkout/route.ts
+export async function POST(req: NextRequest) {
+  const body = await req.json();
+
+  // Validate input
+  if (!body.productId || !body.userDetails) {
+    return NextResponse.json({ message: 'Invalid data' }, { status: 400 });
+  }
+
+  // Business rules
+  const product = await db.product.findUnique({ where: { id: body.productId } });
+  if (!product) return NextResponse.json({ message: 'Product not found' }, { status: 404 });
+
+  // Proceed to create an order
+  const order = await createOrder(body.productId, body.userDetails);
+
+  return NextResponse.json({ message: 'Order placed successfully!', orderId: order.id });
+}
+
+### ✅ What happens here:
+
+- Validates the request (e.g., is product ID valid?)
+
+- Applies business rules (e.g., check stock, calculate tax)
+
+- Passes control to the Data Layer to create the order in the database
+
+
+## 🗃️ Layer 3: Data Layer (Database ORM like Prisma)
+
+**Tech:** PostgreSQL + Prisma
+
+```ts
+// utils/db/order.ts
+export const createOrder = async (productId: string, userDetails: UserDetails) => {
+  return prisma.order.create({
+    data: {
+      productId,
+      user: {
+        connectOrCreate: {
+          where: { email: userDetails.email },
+          create: {
+            name: userDetails.name,
+            email: userDetails.email,
+          },
+        },
+      },
+      status: 'PENDING',
+    },
+  });
+};
+
+### ✅ What happens here:
+
+- An order row is created in the orders table
+
+- user is linked via connectOrCreate
+
+- All database-level constraints (like foreign keys) are enforced
+
+## 🔐 Layer 4: Security Layer
+
+**Tech:** Middleware + JWT + Role-Based Access  
+
+**File:** `middleware.ts`
+
+```ts
+// middleware.ts
+if (!req.headers.authorization || !verifyJWT(req.headers.authorization)) {
+  return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
+}
+
+### ✅ What happens here:
+
+- Verifies the request is made by a logged-in user
+
+- Prevents unauthorized access to the /api/checkout route
+
+- Ensures only certain roles can place orders (e.g., not banned users)
+
+## 📊 Layer 5: Monitoring & Analytics
+
+**Tech:** Sentry + Google Analytics + Logs  
+
+**File:** Example from `checkout.ts`
+
+```ts
+try {
+  // processing order
+} catch (err) {
+  Sentry.captureException(err);
+  console.error('Checkout failed:', err);
+}
+
+### ✅ What happens here:
+
+- Errors are logged to Sentry with stack trace
+
+- Events like "order placed" are logged to analytics
+
+- Devs can monitor performance of API call or DB latency
+
+## 🔌 Layer 6: Integration Layer
+
+**Tech:** Stripe API, SendGrid, Webhooks  
+
+**File:** `utils/payment.ts`
+
+```ts
+// utils/payment.ts
+const session = await stripe.checkout.sessions.create({
+  payment_method_types: ['card'],
+  line_items: [{ price: product.priceId, quantity: 1 }],
+  success_url: 'https://yourshop.com/success',
+  cancel_url: 'https://yourshop.com/cancel',
+});
+
+### ✅ What happens here:
+
+- After order creation, payment is initiated using Stripe
+
+- Confirmation emails are sent using SendGrid
+
+- Stripe sends a webhook back to update the order status to "PAID"
+
+## 🔁 How All Layers Work Together (Step-by-Step)
+
+```txt
+[1] User clicks "Buy Now" → (Frontend)
+        ⬇️
+[2] Sends data to /api/checkout → (Backend)
+        ⬇️
+[3] Validates input, applies rules → (Business Layer)
+        ⬇️
+[4] Stores new order → (Database Layer)
+        ⬇️
+[5] Initiates Stripe payment → (Integration Layer)
+        ⬇️
+[6] Logs error if fails, reports to Sentry → (Monitoring Layer)
+        ⬇️
+[7] Confirms order & email sent → (Security + Notification)
+
+### ✅ Summary of Layers in Action
+
+| **Layer**         | **What it Did in Checkout Example**                                          |
+|-------------------|-------------------------------------------------------------------------------|
+| **Presentation**   | Showed product, collected user input, made fetch call                        |
+| **Business Logic** | Validated input, checked stock, coordinated database + Stripe                |
+| **Data Access**    | Created order in database                                                    |
+| **Security**       | Verified logged-in user with JWT                                             |
+| **Monitoring**     | Logged errors in Sentry if anything failed                                   |
+| **Integration**    | Connected to Stripe for payments and SendGrid for confirmation email         |

@@ -1,0 +1,167 @@
+---
+title: Layers of an Application
+description: A detailed breakdown of the different layers in a modern web application architecture.
+---
+
+# 🏗️ Layers of an Application
+
+Modern applications are usually divided into multiple layers to **separate concerns**, make code more maintainable, and scale efficiently.
+
+---
+
+## 👨‍💻 1. Presentation Layer (Frontend / UI Layer)
+
+> The user-facing part of the application.
+
+### 📌 Responsibilities:
+- Rendering UI (forms, charts, buttons)
+- Capturing user input
+- Making API calls to backend
+- Handling client-side routing
+- Providing feedback (loading, errors)
+
+### 🌐 Technologies:
+- **React**, **Next.js**, **Vue**, **Angular**
+- **HTML/CSS/JS**
+- **Tailwind CSS**, **Bootstrap**, **Material UI**
+- State management: **Redux**, **Context API**, **Zustand**
+
+### 🛠 Examples:
+- Login page
+- Product grid
+- User profile page
+
+### ✅ Best Practices:
+- Keep components modular and reusable
+- Use proper state management
+- Handle loading and error states gracefully
+- Validate input on client-side
+
+---
+
+## ⚙️ 2. Business Logic Layer (Backend / Application Layer)
+
+> The brain of your app — processes and coordinates everything.
+
+### 📌 Responsibilities:
+- Processing requests from the frontend
+- Validating data
+- Applying business rules (auth, pricing, conditions)
+- Calling databases or external APIs
+
+### 🧠 Technologies:
+- **Node.js**, **Express.js**, **NestJS**
+- **Python** (Django, Flask)
+- **Java** (Spring Boot), **Go**, **Ruby on Rails**
+- Fullstack support: **Next.js API Routes**
+
+### 🛠 Examples:
+- Authenticate user credentials
+- Calculate shipping costs
+- Fetch data from multiple sources and return a response
+
+### ✅ Best Practices:
+- Separate logic from routing and database code
+- Use service and controller layers
+- Validate all input from the frontend
+- Handle errors consistently
+
+---
+
+## 🗃️ 3. Data Access Layer (Database Layer)
+
+> Manages reading and writing persistent data.
+
+### 📌 Responsibilities:
+- Querying and storing data
+- Ensuring schema integrity
+- Handling transactions and indexing
+- Abstracting database operations
+
+### 🗄️ Technologies:
+- **SQL**: PostgreSQL, MySQL, SQLite
+- **NoSQL**: MongoDB, Redis, Firebase
+- ORMs: **Prisma**, **Mongoose**, **TypeORM**, **Sequelize**
+
+### 🛠 Examples:
+- `findUserByEmail(email)`
+- `createNewOrder(data)`
+- `updateProfile(userId, newInfo)`
+
+### ✅ Best Practices:
+- Keep queries optimized with indexes
+- Use transactions when updating multiple records
+- Isolate data logic into repositories or models
+- Use migration tools for schema changes
+
+---
+
+## 🔐 Optional: Security Layer
+
+> Protects your application from threats and manages access control.
+
+### 📌 Responsibilities:
+- Authentication (login, register)
+- Authorization (role-based access)
+- Token management (e.g. JWT, sessions)
+- Preventing attacks (XSS, CSRF, SQLi)
+
+### 🔒 Technologies:
+- **JWT**, **OAuth**, **Clerk**, **Auth0**
+- Helmet.js, Bcrypt, CSRF middleware
+- Input sanitization libraries
+
+---
+
+## 📊 Optional: Monitoring & Analytics Layer
+
+> Tracks app health, errors, and user behavior.
+
+### 📌 Responsibilities:
+- Logging frontend/backend errors
+- Monitoring performance
+- Analyzing user interactions
+
+### 📈 Tools:
+- **Sentry**, **LogRocket**, **Datadog**
+- **Google Analytics**, **New Relic**, **Prometheus**
+
+---
+
+## 🔌 Optional: Integration Layer
+
+> Handles connections to third-party services and external APIs.
+
+### 📌 Responsibilities:
+- Sending emails
+- Handling payments
+- Uploading files
+- Calling external APIs
+
+### 🌐 Examples:
+- **Stripe**, **Razorpay** for payments
+- **SendGrid**, **Resend** for email
+- **OpenAI**, **Hugging Face** for AI
+- **S3**, **Cloudinary** for file storage
+
+### ✅ Best Practices:
+- Isolate integration logic in separate services or modules
+- Handle API failures with retries and error logging
+- Keep sensitive API keys safe using environment variables
+
+---
+
+## 🧠 Summary Table
+
+| Layer                   | Purpose                                   | Examples                                      |
+|-------------------------|-------------------------------------------|-----------------------------------------------|
+| **Presentation**        | User interface & interaction              | React UI, buttons, inputs, API calls          |
+| **Business Logic**      | App rules and orchestration               | Auth checks, data processing, validation      |
+| **Data Access**         | Persistent storage                        | SQL/NoSQL queries, CRUD operations            |
+| **Security** (optional) | Protect app from threats                  | JWT, OAuth, CSRF, role checks                 |
+| **Monitoring** (optional)| Track performance & behavior             | Sentry, Analytics, Error logs                 |
+| **Integration** (optional) | Connect with 3rd party services        | Stripe, SendGrid, OpenAI, S3                  |
+
+---
+
+> 💡 These layers work together to create a scalable, secure, and maintainable application architecture.

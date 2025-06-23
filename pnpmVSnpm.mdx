@@ -1,0 +1,70 @@
+---
+title: Why pnpm is Faster than npm
+description: Understanding how pnpm outperforms npm in speed and efficiency.
+---
+
+# ⚡ Why is `pnpm` Faster than `npm`?
+
+Both are package managers, but **pnpm wins in speed and efficiency** due to how it stores and links packages.
+
+---
+
+## 🧠 Key Differences
+
+### 1. 📦 Shared Global Store with Hard Links
+
+- `pnpm` **doesn’t duplicate packages** across projects.
+- Uses a **global content-addressable store**.
+- Projects receive **hard links** to the global packages.
+
+> ✅ Less disk space  
+> ✅ Faster install times
+
+---
+
+### 2. 🔒 Immutable Package Store
+
+- Packages are **read-only** once installed.
+- Guarantees safe, reliable caching.
+
+---
+
+### 3. 🧬 Strict Dependency Resolution
+
+- Enforces that each package only accesses what it explicitly depends on.
+- Helps avoid hidden bugs.
+
+---
+
+### 4. 🏎️ Faster Repeated Installs
+
+- Cached packages make reinstalling almost instant.
+- No need to re-download or re-copy files.
+
+---
+
+## 🆚 Comparison Table
+
+| Feature              | `npm`                 | `pnpm`                       |
+|----------------------|------------------------|-------------------------------|
+| Disk usage           | 🔺 High (copies files) | 🔻 Low (shared via links)     |
+| Speed                | 🐢 Slower              | 🚀 Much faster                |
+| Dependency isolation | ❌ Flat               | ✅ Strict & clean             |
+| Global cache         | ⚠️ Limited            | ✅ Smart and efficient        |
+| Monorepo support     | ⚠️ Okay               | ✅ Excellent                  |
+
+---
+
+## ✅ Summary
+
+Use `pnpm` if you want:
+- 🚀 Faster installs
+- 💾 Less disk usage
+- 🔒 Safer dependency resolution
+- 👨‍👩‍👧‍👦 Better monorepo support
+
+To get started:
+
+```bash
+npm install -g pnpm
+pnpm install
