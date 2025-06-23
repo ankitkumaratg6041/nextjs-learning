@@ -28,6 +28,7 @@ const handleSubmit = async () => {
   const data = await res.json();
   alert(data.message);
 };
+```
 
 
 ## ⚙️ Layer 2: Business Logic Layer (Backend / API Route)
@@ -55,6 +56,7 @@ export async function POST(req: NextRequest) {
 
   return NextResponse.json({ message: 'Order placed successfully!', orderId: order.id });
 }
+```
 
 ### ✅ What happens here:
 
@@ -88,6 +90,7 @@ export const createOrder = async (productId: string, userDetails: UserDetails) =
     },
   });
 };
+```
 
 ### ✅ What happens here:
 
@@ -108,6 +111,7 @@ export const createOrder = async (productId: string, userDetails: UserDetails) =
 if (!req.headers.authorization || !verifyJWT(req.headers.authorization)) {
   return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
 }
+```
 
 ### ✅ What happens here:
 
@@ -130,6 +134,7 @@ try {
   Sentry.captureException(err);
   console.error('Checkout failed:', err);
 }
+```
 
 ### ✅ What happens here:
 
@@ -153,6 +158,7 @@ const session = await stripe.checkout.sessions.create({
   success_url: 'https://yourshop.com/success',
   cancel_url: 'https://yourshop.com/cancel',
 });
+```
 
 ### ✅ What happens here:
 
@@ -178,6 +184,7 @@ const session = await stripe.checkout.sessions.create({
 [6] Logs error if fails, reports to Sentry → (Monitoring Layer)
         ⬇️
 [7] Confirms order & email sent → (Security + Notification)
+```
 
 ### ✅ Summary of Layers in Action
 
