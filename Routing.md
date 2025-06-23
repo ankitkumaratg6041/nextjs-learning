@@ -1,0 +1,1 @@
+![Routing Conventions](/images-notes/image.png)

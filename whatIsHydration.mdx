@@ -1,0 +1,88 @@
+## 💧 What is Hydration in React?
+
+Hydration is the process of taking **server-rendered HTML** and turning it into a **fully interactive React application** in the browser.
+
+---
+
+### 🔥 Why Hydration Exists
+
+When using **Server-Side Rendering (SSR)** or **React Server Components (RSC)**, React renders components as **static HTML** on the server and sends it to the browser.
+
+But plain HTML:
+- ✅ Loads fast
+- ❌ Can’t handle interactivity (e.g., `onClick`, `useState`)
+
+So React needs to “hydrate” this HTML to make it **interactive** on the client side.
+
+---
+
+### 🧠 What Happens During Hydration
+
+1. The browser receives **pre-rendered HTML** from the server.
+2. React JS bundle loads in the browser.
+3. React **matches the HTML with the virtual DOM** structure.
+4. It **attaches event listeners**, **activates hooks**, and **restores state**.
+
+This process is called **hydration**.
+
+---
+
+### 📌 Example
+
+#### `Counter.tsx` (Client Component)
+
+```tsx
+'use client';
+
+import { useState } from 'react';
+
+export default function Counter() {
+  const [count, setCount] = useState(0);
+
+  return <button onClick={() => setCount(count + 1)}>Clicked {count} times</button>;
+}
+
+## What happens:
+**On the server:**
+HTML like ```html<button>Clicked 0 times</button>``` is sent to the browser.
+
+**In the browser:**
+React hydrates the button → attaches onClick, activates useState.
+
+### 🧊 Dry HTML vs 💧 Hydrated React
+
+| **State**             | **Description**                        | **Interactive?** | **React Active?** |
+|------------------------|----------------------------------------|------------------|--------------------|
+| **Before Hydration**   | Static HTML rendered on the server     | ❌ No             | ❌ No              |
+| **After Hydration**    | Fully React-powered component          | ✅ Yes            | ✅ Yes             |
+
+---
+
+### 🧱 In Next.js App Router
+
+- **Server Components**: Rendered on the server, **never hydrated** (no interactivity).
+- **Client Components**: Rendered on the server as static HTML, then **hydrated in the browser**.
+
+```tsx
+// app/page.tsx (server component)
+import Counter from './Counter'; // client component
+
+export default function Page() {
+  return (
+    <div>
+      <h1>Hello</h1>
+      <Counter /> {/* Will be hydrated in browser */}
+    </div>
+  );
+}
+
+### ✅ Summary
+
+| **Concept**   | **Meaning**                                                   |
+|---------------|---------------------------------------------------------------|
+| **Hydration** | Making server-rendered HTML interactive with React            |
+| **When**      | After React loads in the browser                              |
+| **Why**       | To enable interactivity like state, events, etc.              |
+| **Used In**   | Only for `'use client'` components (not server components)    |
+
+> 💡 Without hydration, components are just plain HTML with no behavior.
